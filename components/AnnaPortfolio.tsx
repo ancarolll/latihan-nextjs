@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 interface Project {
   id: number;
@@ -101,7 +102,6 @@ const SplineViewer: React.FC<{ url: string; style?: React.CSSProperties }> = ({ 
 
 const AnnaPortfolio: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
-  const aboutRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const projectsRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
@@ -171,7 +171,7 @@ const AnnaPortfolio: React.FC = () => {
     { icon: "fa-music", name: "Singing", description: "Expressing emotions through music" },
     { icon: "fa-pen", name: "Writing", description: "Random thoughts and creative ideas" },
     { icon: "fa-film", name: "Movies", description: "Exploring different stories and perspectives" },
-    { icon: "fa-birthday-cake", name: "Sweet Foods", description: "Life's too short for bitter tastes" },
+    { icon: "fa-birthday-cake", name: "Sweet Foods", description: "Life&apos;s too short for bitter tastes" },
     { icon: "fa-camera", name: "Photography", description: "Capturing beautiful moments" },
     { icon: "fa-comments", name: "Storytelling", description: "Sharing experiences and ideas" }
   ];
@@ -190,7 +190,7 @@ const AnnaPortfolio: React.FC = () => {
     document.head.appendChild(link);
 
     // Dynamic import for GSAP to avoid SSR issues
-    const loadGSAP = async () => {
+    const loadGSAP = async (): Promise<void> => {
       try {
         const { gsap } = await import('gsap');
         const { ScrollTrigger } = await import('gsap/ScrollTrigger');
@@ -258,15 +258,6 @@ const AnnaPortfolio: React.FC = () => {
             }
           }
         );
-
-        // Cleanup function
-        return () => {
-          try {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-          } catch (error) {
-            console.warn('ScrollTrigger cleanup error:', error);
-          }
-        };
       } catch (error) {
         console.warn('GSAP loading error:', error);
       }
@@ -408,7 +399,7 @@ const AnnaPortfolio: React.FC = () => {
                   </div>
                   
                   <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-tight mt-6">
-                    Hi, I'm{' '}
+                    Hi, I&apos;m{' '}
                     <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">Anna Caroline</span>
                   </h1>
                   
@@ -417,8 +408,8 @@ const AnnaPortfolio: React.FC = () => {
                   </h2>
                   
                   <p className="text-base lg:text-lg text-white/80 leading-relaxed">
-                    "Hai, aku Anna! Ini gambaran diriku. Setiap langkah ada maknanya. 
-                    Dengan bimbingan-Nya, saya berusaha memberikan yang terbaik dengan hati yang tulus."
+                    &ldquo;Hai, aku Anna! Ini gambaran diriku. Setiap langkah ada maknanya. 
+                    Dengan bimbingan-Nya, saya berusaha memberikan yang terbaik dengan hati yang tulus.&rdquo;
                   </p>
 
                   {/* CTA Buttons */}
@@ -484,10 +475,6 @@ const AnnaPortfolio: React.FC = () => {
                         <span className="text-white/70 text-sm">Projects</span>
                         <span className="text-cyan-400 font-bold">Successful Completed +++ </span>
                       </div>
-                      {/* <div className="flex items-center justify-between">
-                        <span className="text-white/70 text-sm">Technologies</span>
-                        <span className="text-cyan-400 font-bold">8+ </span>
-                      </div> */}
                     </div>
                   </div>
 
@@ -536,9 +523,9 @@ const AnnaPortfolio: React.FC = () => {
                         My Philosophy
                       </h3>
                       <div className="space-y-3 text-white/80 leading-relaxed text-sm lg:text-base">
-                        <p>"Filosofi hidup saya sederhana: berusaha maksimal, dan kalau tidak tahu ya bertanya."</p>
-                        <p>"Saya percaya keseimbangan itu penting - bisa adaptasi tapi tetap berprinsip."</p>
-                        <p>"Kerja keras + ketulusan + mau belajar = resep berkembang yang selalu work buat saya."</p>
+                        <p>&ldquo;Filosofi hidup saya sederhana: berusaha maksimal, dan kalau tidak tahu ya bertanya.&rdquo;</p>
+                        <p>&ldquo;Saya percaya keseimbangan itu penting - bisa adaptasi tapi tetap berprinsip.&rdquo;</p>
+                        <p>&ldquo;Kerja keras + ketulusan + mau belajar = resep berkembang yang selalu work buat saya.&rdquo;</p>
                       </div>
                     </div>
 
@@ -629,7 +616,7 @@ const AnnaPortfolio: React.FC = () => {
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="fade-in text-3xl lg:text-4xl font-bold text-white mb-4">
-                When I'm Off the Keyboard
+                When I&apos;m Off the Keyboard
               </h2>
               <p className="fade-in text-lg text-white/70">
                 Life beyond code - my passions and interests
@@ -750,11 +737,13 @@ const AnnaPortfolio: React.FC = () => {
                       'bg-gradient-to-r from-emerald-400/30 to-teal-500/30'
                     }`}></div>
                     
-                    <div className="h-48 bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center border-b border-white/20 backdrop-blur-sm overflow-hidden">
-                      <img 
+                    <div className="h-48 bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center border-b border-white/20 backdrop-blur-sm overflow-hidden relative">
+                      <Image 
                         src={project.image} 
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
                           const fallbackElement = e.currentTarget.nextElementSibling as HTMLElement;
@@ -763,7 +752,7 @@ const AnnaPortfolio: React.FC = () => {
                           }
                         }}
                       />
-                      <div className="hidden w-full h-full items-center justify-center">
+                      <div className="hidden w-full h-full items-center justify-center absolute">
                         <i className={`fas fa-laptop-code text-4xl group-hover:scale-110 transition-transform ${
                           index % 3 === 0 ? 'text-cyan-400' :
                           index % 3 === 1 ? 'text-purple-400' :
@@ -861,11 +850,13 @@ const AnnaPortfolio: React.FC = () => {
                 {/* Glowing border effect */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-orange-400/20 via-red-500/20 to-pink-400/20 blur-xl -z-10"></div>
                 
-                <div className="w-40 h-40   rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl p-3">
-                  <img 
+                <div className="w-40 h-40 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl p-3 relative">
+                  <Image 
                     src="/cretivox.png" 
                     alt="Cretivox Logo" 
-                    className="w-full h-full object-contain"
+                    fill
+                    sizes="160px"
+                    className="object-contain"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const fallbackElement = e.currentTarget.nextElementSibling as HTMLElement;
@@ -874,7 +865,7 @@ const AnnaPortfolio: React.FC = () => {
                       }
                     }}
                   />
-                  <div className="hidden w-full h-full items-center justify-center">
+                  <div className="hidden w-full h-full items-center justify-center absolute">
                     <i className="fas fa-rocket text-2xl text-white"></i>
                   </div>
                 </div>
@@ -893,10 +884,10 @@ const AnnaPortfolio: React.FC = () => {
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="fade-in text-3xl lg:text-4xl font-bold text-white mb-4">
-                Let's Work Together
+                Let&apos;s Work Together
               </h2>
               <p className="fade-in text-lg text-white/70">
-                Ready to bring your ideas to life? Let's connect!
+                Ready to bring your ideas to life? Let&apos;s connect!
               </p>
             </div>
             
@@ -1007,7 +998,7 @@ const AnnaPortfolio: React.FC = () => {
                   © 2025 Anna Caroline A. Banga. All rights reserved.
                 </p>
                 <div className="flex items-center gap-4">
-                  <span className="text-white/60 text-sm">Made with lope</span>
+                  <span className="text-white/60 text-sm">Made with love</span>
                   <i className="fas fa-heart text-red-400 text-sm"></i>
                   <span className="text-white/60 text-sm">and lots of coffee</span>
                 </div>
@@ -1037,11 +1028,13 @@ const AnnaPortfolio: React.FC = () => {
                 </div>
               </div>
               <div className="p-6">
-                <div className="h-48 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl mb-6 flex items-center justify-center border border-white/20 overflow-hidden">
-                  <img 
+                <div className="h-48 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl mb-6 flex items-center justify-center border border-white/20 overflow-hidden relative">
+                  <Image 
                     src={selectedProject.image} 
                     alt={selectedProject.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 768px"
+                    className="object-cover"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       const fallbackElement = e.currentTarget.nextElementSibling as HTMLElement;
@@ -1050,7 +1043,7 @@ const AnnaPortfolio: React.FC = () => {
                       }
                     }}
                   />
-                  <div className="hidden w-full h-full items-center justify-center">
+                  <div className="hidden w-full h-full items-center justify-center absolute">
                     <i className="fas fa-laptop-code text-4xl text-cyan-400"></i>
                   </div>
                 </div>
